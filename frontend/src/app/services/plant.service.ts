@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Plant } from '../models/plant.model';
 import { CareRecord } from '../models/care.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlantService {
-  private apiUrl = '/api/plants';
+  private apiUrl = `${environment.apiUrl}/plants`;
 
   constructor(private http: HttpClient) {}
 
