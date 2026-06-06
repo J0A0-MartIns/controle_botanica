@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: botanica-db
+    environment:
+      POSTGRES_DB: botanica
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - botanica-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d botanica"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: botanica-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=jdbc:postgresql://db:5432/botanica
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - botanica-net
+
+  frontend:
+    build: ./frontend
+    container_name: botanica-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - botanica-net
+
+volumes:
+  pgdata:
+
+networks:
+  botanica-net:
+    driver: bridge

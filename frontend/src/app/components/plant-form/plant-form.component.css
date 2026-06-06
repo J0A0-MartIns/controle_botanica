@@ -1,0 +1,12 @@
+.form-container {
+  width: 100%;
+}
+
+.loading-spinner {
+  animation: spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

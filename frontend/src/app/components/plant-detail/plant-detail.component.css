@@ -1,0 +1,196 @@
+.detail-container {
+  width: 100%;
+}
+
+.loading-spinner {
+  animation: spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-panel {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  padding: 1.5rem;
+}
+
+.plant-header-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(18, 26, 36, 0.6) 100%);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.plant-large-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--primary);
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  font-size: 3rem;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 20px 0 rgba(16, 185, 129, 0.1);
+}
+
+/* Detail Split Grid */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Timeline Styling */
+.timeline {
+  position: relative;
+  padding-left: 3rem;
+  margin-top: 1rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--border-glass);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Timeline Node Dot */
+.timeline-node {
+  position: absolute;
+  left: calc(-3rem + 2px); /* Centered on the timeline vertical line */
+  top: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  border: 2px solid var(--bg-deep);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
+}
+
+.timeline-node span {
+  font-size: 1.15rem;
+}
+
+/* Color Coding Timeline Items */
+.timeline-item[data-type="WATERING"] .timeline-node {
+  background: var(--color-watering);
+  color: #fff;
+  box-shadow: 0 0 12px var(--glow-watering);
+}
+.timeline-item[data-type="WATERING"] .timeline-content {
+  border-left: 3px solid var(--color-watering);
+}
+
+.timeline-item[data-type="PRUNING"] .timeline-node {
+  background: var(--color-pruning);
+  color: #0c1512;
+  box-shadow: 0 0 12px var(--glow-pruning);
+}
+.timeline-item[data-type="PRUNING"] .timeline-content {
+  border-left: 3px solid var(--color-pruning);
+}
+
+.timeline-item[data-type="FERTILIZING"] .timeline-node {
+  background: var(--color-fertilizing);
+  color: #fff;
+  box-shadow: 0 0 12px var(--glow-fertilizing);
+}
+.timeline-item[data-type="FERTILIZING"] .timeline-content {
+  border-left: 3px solid var(--color-fertilizing);
+}
+
+.timeline-item[data-type="PEST_CONTROL"] .timeline-node {
+  background: var(--color-pest-control);
+  color: #fff;
+  box-shadow: 0 0 12px var(--glow-pest-control);
+}
+.timeline-item[data-type="PEST_CONTROL"] .timeline-content {
+  border-left: 3px solid var(--color-pest-control);
+}
+
+/* Timeline Content Card */
+.timeline-content {
+  padding: 1.25rem;
+}
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.care-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-item[data-type="WATERING"] .care-badge { color: #60a5fa; }
+.timeline-item[data-type="PRUNING"] .care-badge { color: #34d399; }
+.timeline-item[data-type="FERTILIZING"] .care-badge { color: #a78bfa; }
+.timeline-item[data-type="PEST_CONTROL"] .care-badge { color: #f87171; }
+
+.care-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.care-desc {
+  font-size: 0.925rem;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.care-desc.italic {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+/* Success Banner */
+.success-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

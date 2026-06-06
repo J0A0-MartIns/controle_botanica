@@ -1,0 +1,99 @@
+<div class="form-container">
+  <!-- Back Button -->
+  <div style="margin-bottom: 1.5rem;">
+    <a routerLink="/" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+      <span class="material-symbols-rounded">arrow_back</span> Voltar ao Painel
+    </a>
+  </div>
+
+  <div class="glass-panel animate-fade-in-up" style="max-width: 600px; margin: 0 auto;">
+    <h2 class="header-title" style="font-size: 1.75rem; margin-bottom: 0.5rem;">
+      <span class="material-symbols-rounded" style="color: var(--primary);">add_box</span> Adicionar Planta
+    </h2>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Preencha os dados abaixo para cadastrar a nova planta no monitor.</p>
+
+    <!-- Error Banner -->
+    <div *ngIf="error" class="error-banner" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem;">
+      <span class="material-symbols-rounded">error</span>
+      <span>{{ error }}</span>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #plantForm="ngForm">
+      <!-- Species -->
+      <div class="form-group">
+        <label class="form-label" for="species">Espécie / Nome Comum *</label>
+        <input 
+          type="text" 
+          id="species" 
+          name="species" 
+          class="form-input" 
+          placeholder="Ex: Amoreira, Alecrim, Samambaia..."
+          [(ngModel)]="plant.species"
+          required
+          #speciesInput="ngModel"
+        >
+        <span *ngIf="speciesInput.invalid && speciesInput.touched" style="color: #f87171; font-size: 0.75rem; margin-top: 0.25rem;">
+          O nome da espécie é obrigatório.
+        </span>
+      </div>
+
+      <!-- Location -->
+      <div class="form-group">
+        <label class="form-label" for="location">Localização na Casa *</label>
+        <input 
+          type="text" 
+          id="location" 
+          name="location" 
+          class="form-input" 
+          placeholder="Ex: Quintal, Varanda, Sala de Estar..."
+          [(ngModel)]="plant.location"
+          required
+          #locationInput="ngModel"
+        >
+        <span *ngIf="locationInput.invalid && locationInput.touched" style="color: #f87171; font-size: 0.75rem; margin-top: 0.25rem;">
+          A localização é obrigatória.
+        </span>
+      </div>
+
+      <!-- Acquisition Date -->
+      <div class="form-group">
+        <label class="form-label" for="acquisitionDate">Data de Aquisição *</label>
+        <input 
+          type="date" 
+          id="acquisitionDate" 
+          name="acquisitionDate" 
+          class="form-input" 
+          [(ngModel)]="plant.acquisitionDate"
+          required
+        >
+      </div>
+
+      <!-- Notes -->
+      <div class="form-group">
+        <label class="form-label" for="notes">Notas e Recomendações de Cuidados</label>
+        <textarea 
+          id="notes" 
+          name="notes" 
+          class="form-textarea" 
+          placeholder="Ex: Necessita de rega a cada 2 dias; gosta de meia-sombra; sensível ao vento frio..."
+          [(ngModel)]="plant.notes"
+        ></textarea>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+        <a routerLink="/" class="btn btn-secondary" style="flex: 1;">Cancelar</a>
+        <button 
+          type="submit" 
+          class="btn btn-primary" 
+          style="flex: 2;"
+          [disabled]="submitting || !plantForm.valid"
+        >
+          <span class="material-symbols-rounded" *ngIf="!submitting">save</span>
+          <span class="material-symbols-rounded loading-spinner" *ngIf="submitting">sync</span>
+          {{ submitting ? 'Cadastrando...' : 'Cadastrar Planta' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

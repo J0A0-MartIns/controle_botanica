@@ -1,0 +1,108 @@
+<div class="list-container">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h2 class="header-title">
+        <span class="material-symbols-rounded">spa</span> Minhas Plantas
+      </h2>
+      <p style="color: var(--text-secondary);">Acompanhe o estado de cultivo da sua casa.</p>
+    </div>
+    <button class="btn btn-primary" routerLink="/add-plant">
+      <span class="material-symbols-rounded">add</span> Adicionar Planta
+    </button>
+  </div>
+
+  <!-- Search and Filter Bar -->
+  <div class="glass-panel filter-bar" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 250px; position: relative;">
+      <span class="material-symbols-rounded search-icon">search</span>
+      <input 
+        type="text" 
+        class="form-input search-input" 
+        placeholder="Buscar espécie ou notas..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterPlants()"
+      >
+    </div>
+    
+    <div style="min-width: 200px;">
+      <select 
+        class="form-select" 
+        style="width: 100%;" 
+        [(ngModel)]="selectedLocation" 
+        (ngModelChange)="filterPlants()"
+      >
+        <option value="">Todos os locais</option>
+        <option *ngFor="let loc of getLocations()" [value]="loc">{{ loc }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" style="text-align: center; padding: 3rem;">
+    <span class="material-symbols-rounded loading-spinner" style="font-size: 3rem; color: var(--primary);">sync</span>
+    <p style="margin-top: 1rem; color: var(--text-secondary);">Carregando cultivo...</p>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="glass-panel error-panel" style="margin-bottom: 2rem;">
+    <span class="material-symbols-rounded" style="color: var(--color-pest-control); font-size: 2rem;">error</span>
+    <div>
+      <p style="font-weight: 600; color: #fff;">{{ error }}</p>
+      <button class="btn btn-secondary" style="margin-top: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;" (click)="loadPlants()">
+        Tentar Novamente
+      </button>
+    </div>
+  </div>
+
+  <!-- Plant Cards Grid -->
+  <div *ngIf="!loading && !error" class="cards-grid">
+    <!-- Empty State -->
+    <div *ngIf="filteredPlants.length === 0" class="glass-panel empty-state">
+      <span class="material-symbols-rounded" style="font-size: 4rem; color: var(--text-muted);">psychiatry</span>
+      <h3 style="margin-top: 1rem; margin-bottom: 0.5rem;">Nenhuma planta encontrada</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Comece cadastrando sua primeira planta no botão superior.</p>
+    </div>
+
+    <!-- Cards -->
+    <div 
+      *ngFor="let plant of filteredPlants" 
+      class="glass-panel plant-card animate-fade-in-up" 
+      [routerLink]="['/plants', plant.id]"
+    >
+      <div class="card-header">
+        <span class="material-symbols-rounded plant-avatar">local_florist</span>
+        <div style="flex: 1;">
+          <h3 class="plant-species">{{ plant.species }}</h3>
+          <span class="plant-location">
+            <span class="material-symbols-rounded" style="font-size: 0.9rem;">location_on</span>
+            {{ plant.location }}
+          </span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p class="plant-notes" *ngIf="plant.notes">{{ plant.notes }}</p>
+        <p class="plant-notes italic" *ngIf="!plant.notes">Sem notas adicionais.</p>
+        
+        <div class="acquisition-date">
+          Adquirida em: <strong>{{ plant.acquisitionDate | date:'dd/MM/yyyy' }}</strong>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div *ngIf="getLastCare(plant) as lastCare; else noCare" class="last-care-badge" [attr.data-type]="lastCare.type">
+          <span class="material-symbols-rounded" style="font-size: 1.1rem;">
+            {{ lastCare.type === 'WATERING' ? 'water_drop' : lastCare.type === 'PRUNING' ? 'content_cut' : lastCare.type === 'FERTILIZING' ? 'workspace_premium' : 'bug_report' }}
+          </span>
+          <span>Última {{ getCareTypeLabel(lastCare.type) }}: {{ lastCare.date | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <ng-template #noCare>
+          <div class="last-care-badge none">
+            <span class="material-symbols-rounded" style="font-size: 1.1rem;">help_outline</span>
+            <span>Sem cuidados registrados</span>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,172 @@
+.list-container {
+  width: 100%;
+}
+
+.filter-bar {
+  padding: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding-left: 2.75rem;
+}
+
+.loading-spinner {
+  animation: spin 1.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-panel {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.05);
+  padding: 1.5rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-state h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.plant-card {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 240px;
+}
+
+.plant-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px 0 rgba(16, 185, 129, 0.12);
+}
+
+.card-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.plant-avatar {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+  padding: 0.6rem;
+  border-radius: var(--radius-md);
+  font-size: 1.5rem;
+}
+
+.plant-species {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.plant-location {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.2rem;
+}
+
+.card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.plant-notes {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.4;
+}
+
+.plant-notes.italic {
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.acquisition-date {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+}
+
+.card-footer {
+  border-top: 1px solid var(--border-glass);
+  padding-top: 0.75rem;
+}
+
+.last-care-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: 100%;
+}
+
+.last-care-badge[data-type="WATERING"] {
+  background: var(--glow-watering);
+  color: #60a5fa;
+}
+
+.last-care-badge[data-type="PRUNING"] {
+  background: var(--glow-pruning);
+  color: #34d399;
+}
+
+.last-care-badge[data-type="FERTILIZING"] {
+  background: var(--glow-fertilizing);
+  color: #a78bfa;
+}
+
+.last-care-badge[data-type="PEST_CONTROL"] {
+  background: var(--glow-pest-control);
+  color: #f87171;
+}
+
+.last-care-badge.none {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+}

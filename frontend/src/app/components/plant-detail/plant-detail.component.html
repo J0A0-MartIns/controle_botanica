@@ -1,0 +1,158 @@
+<div class="detail-container">
+  <!-- Back Button -->
+  <div style="margin-bottom: 1.5rem;">
+    <a routerLink="/" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+      <span class="material-symbols-rounded">arrow_back</span> Voltar ao Painel
+    </a>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" style="text-align: center; padding: 4rem;">
+    <span class="material-symbols-rounded loading-spinner" style="font-size: 3rem; color: var(--primary);">sync</span>
+    <p style="margin-top: 1rem; color: var(--text-secondary);">Carregando detalhes da planta...</p>
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="error" class="glass-panel error-panel" style="margin-bottom: 2rem;">
+    <span class="material-symbols-rounded" style="color: var(--color-pest-control); font-size: 2rem;">error</span>
+    <div>
+      <p style="font-weight: 600; color: #fff;">{{ error }}</p>
+      <button class="btn btn-secondary" style="margin-top: 0.75rem; padding: 0.4rem 0.8rem; font-size: 0.85rem;" (click)="ngOnInit()">
+        Tentar Novamente
+      </button>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!loading && !error && plant" class="animate-fade-in-up">
+    <!-- Plant Header Card -->
+    <div class="glass-panel plant-header-card" style="margin-bottom: 2rem;">
+      <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+        <span class="material-symbols-rounded plant-large-icon">local_florist</span>
+        <div style="flex: 1; min-width: 200px;">
+          <h2 style="font-size: 2rem; font-weight: 800; color: #fff; line-height: 1.2;">{{ plant.species }}</h2>
+          <div style="display: flex; gap: 1.5rem; color: var(--text-secondary); margin-top: 0.5rem; flex-wrap: wrap;">
+            <span style="display: flex; align-items: center; gap: 0.35rem;">
+              <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--primary);">location_on</span>
+              {{ plant.location }}
+            </span>
+            <span style="display: flex; align-items: center; gap: 0.35rem;">
+              <span class="material-symbols-rounded" style="font-size: 1.2rem; color: var(--primary);">calendar_month</span>
+              Adquirida em: {{ plant.acquisitionDate | date:'dd/MM/yyyy' }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-glass);" *ngIf="plant.notes">
+        <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 0.5rem;">Notas / Recomendações</h4>
+        <p style="color: var(--text-secondary); line-height: 1.5;">{{ plant.notes }}</p>
+      </div>
+    </div>
+
+    <!-- Main Columns -->
+    <div class="detail-grid">
+      <!-- Left Column: Timeline of Care -->
+      <div class="timeline-column">
+        <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span class="material-symbols-rounded" style="color: var(--primary);">history</span> Histórico de Cuidados
+        </h3>
+
+        <!-- Empty Timeline -->
+        <div *ngIf="careRecords.length === 0" class="glass-panel" style="text-align: center; padding: 3rem 1rem; color: var(--text-secondary);">
+          <span class="material-symbols-rounded" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1rem;">event_busy</span>
+          <h4>Nenhum cuidado registrado ainda</h4>
+          <p style="font-size: 0.9rem; margin-top: 0.25rem;">Use o formulário ao lado para registrar o primeiro cuidado.</p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="timeline" *ngIf="careRecords.length > 0">
+          <div class="timeline-item" *ngFor="let record of careRecords" [attr.data-type]="record.careType">
+            <!-- Node Marker -->
+            <div class="timeline-node">
+              <span class="material-symbols-rounded">{{ getCareTypeIcon(record.careType) }}</span>
+            </div>
+            
+            <!-- Timeline Content Card -->
+            <div class="timeline-content glass-panel">
+              <div class="timeline-header">
+                <span class="care-badge">{{ getCareTypeLabel(record.careType) }}</span>
+                <span class="care-date">{{ record.date | date:'dd/MM/yyyy' }}</span>
+              </div>
+              <p class="care-desc" *ngIf="record.description">{{ record.description }}</p>
+              <p class="care-desc italic" *ngIf="!record.description">Sem detalhes informados.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Add Care Form -->
+      <div class="form-column">
+        <div class="glass-panel" style="position: sticky; top: 2rem;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span class="material-symbols-rounded" style="color: var(--primary);">edit_calendar</span> Registrar Cuidado
+          </h3>
+
+          <div *ngIf="successMessage" class="success-banner" style="margin-bottom: 1.25rem;">
+            <span class="material-symbols-rounded">check_circle</span>
+            <span>{{ successMessage }}</span>
+          </div>
+
+          <form (ngSubmit)="onSubmitCare()" #careForm="ngForm">
+            <!-- Date -->
+            <div class="form-group">
+              <label class="form-label" for="date">Data do Cuidado</label>
+              <input 
+                type="date" 
+                id="date" 
+                name="date"
+                class="form-input" 
+                [(ngModel)]="newRecord.date"
+                required
+              >
+            </div>
+
+            <!-- Care Type -->
+            <div class="form-group">
+              <label class="form-label" for="careType">Tipo de Ação</label>
+              <select 
+                id="careType" 
+                name="careType"
+                class="form-select" 
+                [(ngModel)]="newRecord.careType"
+                required
+              >
+                <option *ngFor="let type of careTypes" [value]="type">
+                  {{ getCareTypeLabel(type) }}
+                </option>
+              </select>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label class="form-label" for="description">Detalhamento / Descrição</label>
+              <textarea 
+                id="description" 
+                name="description"
+                class="form-textarea" 
+                placeholder="Ex: Utilizei 500ml de água morna; adicionei adubo NPK; tratei cochonilhas..."
+                [(ngModel)]="newRecord.description"
+              ></textarea>
+            </div>
+
+            <!-- Submit button -->
+            <button 
+              type="submit" 
+              class="btn btn-primary" 
+              style="width: 100%; margin-top: 1rem;"
+              [disabled]="submittingCare || !careForm.valid"
+            >
+              <span class="material-symbols-rounded" *ngIf="!submittingCare">done</span>
+              <span class="material-symbols-rounded loading-spinner" *ngIf="submittingCare">sync</span>
+              {{ submittingCare ? 'Salvando...' : 'Salvar Registro' }}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
