@@ -47,11 +47,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername())
+        User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElse(null);
 
         if (user == null || !passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(401).body(new MessageResponse("Invalid username or password!"));
+            return ResponseEntity.status(401).body(new MessageResponse("Invalid email or password!"));
         }
 
         String jwt = tokenProvider.generateToken(user.getUsername());
@@ -63,7 +63,7 @@ public class AuthController {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class LoginRequest {
-        private String username;
+        private String email;
         private String password;
     }
 
