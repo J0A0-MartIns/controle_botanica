@@ -3,13 +3,28 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Plant } from '../models/plant.model';
 import { CareRecord } from '../models/care.model';
-import { environment } from '../../environments/environment';
-
 @Injectable({
   providedIn: 'root'
 })
 export class PlantService {
-  private apiUrl = `${environment.apiUrl}/plants`;
+  private getApiUrl(): string {
+    if (typeof window === 'undefined') {
+      return '/api/plants';
+    }
+    const host = window.location.hostname;
+    if (host === 'localhost' || host === '127.0.0.1') {
+      return '/api/plants'; // Local proxy dev server
+    }
+    if (host.includes('app.132.145.196.104.nip.io')) {
+      return 'https://api.132.145.196.104.nip.io/api/plants';
+    }
+    if (host.startsWith('app.')) {
+      return `https://${host.replace('app.', 'api.')}/api/plants`;
+    }
+    return '/api/plants';
+  }
+
+  private apiUrl = this.getApiUrl();
 
   constructor(private http: HttpClient) {}
 
