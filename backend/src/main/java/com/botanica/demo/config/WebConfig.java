@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://infrabotanica.duckdns.org", "http://localhost:4200")
+                .allowedOrigins("https://infrabotanica.duckdns.org", "https://app.infrabotanica.duckdns.org", "https://app.132.145.196.104.nip.io", "http://localhost:4200")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
                 .allowedHeaders("*")
                 .allowCredentials(true);

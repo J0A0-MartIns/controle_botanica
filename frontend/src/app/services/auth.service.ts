@@ -21,6 +21,9 @@ export class AuthService {
     if (host === 'localhost' || host === '127.0.0.1') {
       return '/api/auth';
     }
+    if (host.includes('infrabotanica.duckdns.org')) {
+      return 'https://api.infrabotanica.duckdns.org/api/auth';
+    }
     if (host.includes('app.132.145.196.104.nip.io')) {
       return 'https://api.132.145.196.104.nip.io/api/auth';
     }

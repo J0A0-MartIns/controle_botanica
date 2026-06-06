@@ -15,6 +15,9 @@ export class PlantService {
     if (host === 'localhost' || host === '127.0.0.1') {
       return '/api/plants'; // Local proxy dev server
     }
+    if (host.includes('infrabotanica.duckdns.org')) {
+      return 'https://api.infrabotanica.duckdns.org/api/plants';
+    }
     if (host.includes('app.132.145.196.104.nip.io')) {
       return 'https://api.132.145.196.104.nip.io/api/plants';
     }
