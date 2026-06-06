@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/plants")
-@CrossOrigin(origins = "*")
 public class PlantController {
 
     private final PlantService plantService;
@@ -23,34 +22,37 @@ public class PlantController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Plant>> getAllPlants() {
-        List<Plant> plants = plantService.getAllPlants();
+    public ResponseEntity<List<Plant>> getAllPlants(java.security.Principal principal) {
+        List<Plant> plants = plantService.getAllPlants(principal.getName());
         return ResponseEntity.ok(plants);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Plant> getPlantById(@PathVariable Long id) {
-        Plant plant = plantService.getPlantById(id);
+    public ResponseEntity<Plant> getPlantById(@PathVariable Long id, java.security.Principal principal) {
+        Plant plant = plantService.getPlantById(id, principal.getName());
         return ResponseEntity.ok(plant);
     }
 
     @PostMapping
-    public ResponseEntity<Plant> createPlant(@RequestBody Plant plant) {
-        Plant savedPlant = plantService.savePlant(plant);
+    public ResponseEntity<Plant> createPlant(@RequestBody Plant plant, java.security.Principal principal) {
+        Plant savedPlant = plantService.savePlant(plant, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPlant);
     }
 
     @PostMapping("/{plantId}/records")
     public ResponseEntity<CareRecord> addCareRecord(
             @PathVariable Long plantId,
-            @RequestBody CareRecord careRecord) {
-        CareRecord savedRecord = plantService.addCareRecord(plantId, careRecord);
+            @RequestBody CareRecord careRecord,
+            java.security.Principal principal) {
+        CareRecord savedRecord = plantService.addCareRecord(plantId, careRecord, principal.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedRecord);
     }
 
     @GetMapping("/{plantId}/records")
-    public ResponseEntity<List<CareRecord>> getCareHistory(@PathVariable Long plantId) {
-        List<CareRecord> history = plantService.getCareHistory(plantId);
+    public ResponseEntity<List<CareRecord>> getCareHistory(
+            @PathVariable Long plantId,
+            java.security.Principal principal) {
+        List<CareRecord> history = plantService.getCareHistory(plantId, principal.getName());
         return ResponseEntity.ok(history);
     }
 }

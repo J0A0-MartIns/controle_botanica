@@ -38,4 +38,9 @@ public class Plant {
     @JsonIgnoreProperties("plant")
     @Builder.Default
     private List<CareRecord> careRecords = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "password"})
+    private User user;
 }

@@ -1,6 +1,6 @@
 <div class="app-container">
   <!-- Top Navigation/Header -->
-  <header style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-glass); padding-bottom: 1.25rem;">
+  <header *ngIf="isLoggedIn" style="margin-bottom: 2rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-glass); padding-bottom: 1.25rem;">
     <div style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;" routerLink="/">
       <span class="material-symbols-rounded" style="font-size: 2.5rem; color: var(--primary);">potted_plant</span>
       <div>
@@ -9,13 +9,19 @@
       </div>
     </div>
     
-    <nav style="display: flex; gap: 0.75rem;">
+    <nav style="display: flex; align-items: center; gap: 1rem;">
+      <span class="user-welcome" style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; margin-right: 0.5rem;">
+        Olá, <strong style="color: var(--primary);">{{ username }}</strong>!
+      </span>
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link">
         <span class="material-symbols-rounded">dashboard</span> Painel
       </a>
       <a routerLink="/add-plant" routerLinkActive="active" class="nav-link">
         <span class="material-symbols-rounded">add_circle</span> Nova Planta
       </a>
+      <button (click)="logout()" class="nav-link btn-logout" style="background: none; border: none; font-family: inherit; font-size: inherit; color: #ff6b6b; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 0.75rem; border-radius: 8px; transition: background 0.3s ease;">
+        <span class="material-symbols-rounded">logout</span> Sair
+      </button>
     </nav>
   </header>
 
