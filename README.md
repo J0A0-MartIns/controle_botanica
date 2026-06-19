@@ -1,4 +1,4 @@
-# Monitor de Cultivo e Botânica Doméstica 🌱
+# Monitor de Cultivo e Botânica Doméstica 
 
 Este projeto foi desenvolvido como requisito para a Segunda Verificação de Aprendizagem (VA2) da disciplina de **Infraestrutura para Sistemas de Informação**, do curso de Sistemas de Informação da Universidade Estadual de Goiás (UEG).
 
@@ -10,7 +10,7 @@ Este projeto foi desenvolvido como requisito para a Segunda Verificação de Apr
 ##  Objetivo
 O sistema é uma aplicação web fullstack focada no rastreamento e histórico de cuidados com plantas (regas, podas e tratamentos). O foco principal deste repositório é demonstrar o provisionamento, orquestração e deploy contínuo (CI/CD) da aplicação em um ambiente de nuvem real, cumprindo os requisitos de infraestrutura e DevOps da disciplina.
 
-## 🛠️ Stack Tecnológica
+##  Stack Tecnológica
 * **Infraestrutura:** Oracle Cloud Infrastructure (OCI) - Instância ARM (Always Free / PAYG).
 * **Orquestração e CI/CD:** Dokploy, Docker.
 * **Servidor Web e Proxy:** Traefik (via Dokploy) e Nginx (nativo para a página descritiva).
