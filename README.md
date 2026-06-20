@@ -3,8 +3,8 @@
 Este projeto foi desenvolvido como requisito para a Segunda Verificação de Aprendizagem (VA2) da disciplina de **Infraestrutura para Sistemas de Informação**, do curso de Sistemas de Informação da Universidade Estadual de Goiás (UEG).
 
 ##  Equipe
-* **João Marcos de Araújo Martins**
-* *(Adicione sua dupla aqui, se houver)*
+* **João Marcos Martins**
+* **Matheus Felipe**
 * **Docente:** Prof. Guiliano Rangel Alves
 
 ##  Objetivo
