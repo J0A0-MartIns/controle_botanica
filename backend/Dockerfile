@@ -6,8 +6,8 @@ RUN mvn dependency:go-offline
 COPY src ./src
 RUN mvn clean package -DskipTests
 
-# Estágio de Execução
-FROM eclipse-temurin:17-jre-alpine
+# Estágio de Execução (Trocamos o Alpine pelo Jammy/Ubuntu para suportar processador ARM)
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
